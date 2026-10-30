@@ -1,0 +1,104 @@
+@import "tailwindcss";
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --paper: #eef1f5;
+  --ink: #1b2433;
+  --muted: #566176;
+  --line: #d3d9e2;
+  --accent: #2a4bd7;
+}
+
+.dark {
+  color-scheme: dark;
+  --paper: #0b1020;
+  --ink: #e6eaf4;
+  --muted: #93a0b8;
+  --line: #222c42;
+  --accent: #8aa8ff;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
+
+/* Day/night toggle */
+.theme-switch { position: relative; display: inline-block; font-size: 4.5px; line-height: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+@media (min-width: 640px) {
+  .theme-switch { font-size: 5.5px; }
+}.theme-switch__checkbox { position: absolute; width: 0; height: 0; opacity: 0; }
+
+.theme-switch__container { position: relative; width: 10em; height: 5em; overflow: hidden; border-radius: 5em; background: #3d7eae; box-shadow: inset 0 0.2em 0.5em rgb(0 0 0 / 0.3); transition: background-color 0.5s ease; }
+.theme-switch__checkbox:checked + .theme-switch__container { background: #1d1f2f; }
+.theme-switch__checkbox:focus-visible + .theme-switch__container { outline: 2px solid #3b82f6; outline-offset: 3px; }
+
+/* Clouds sink away at night */
+.theme-switch__clouds { position: absolute; right: 1.6em; bottom: -1em; width: 2.2em; height: 2.2em; border-radius: 50%; background: #fff; box-shadow: -2em 0.3em 0 0.1em #fff, -4em 0.1em 0 0.3em #f1f5fa, -6em 0.4em 0 0 #fff, -3em 1.2em 0 0.6em #e6edf5; transition: transform 0.5s ease; }
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds { transform: translateY(4em); }
+
+/* Stars drop in at night */
+.theme-switch__stars-container { position: absolute; inset: 0; color: #fff; opacity: 0; transform: translateY(-100%); transition: transform 0.5s ease, opacity 0.5s ease; }
+.theme-switch__stars-container svg { display: block; width: 100%; height: 100%; }
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container { opacity: 1; transform: none; }
+
+/* Sun slides across and turns into the moon */
+.theme-switch__circle-container { position: absolute; inset: 0; }
+.theme-switch__sun-moon-container { position: absolute; top: 0.5em; left: 0.5em; width: 4em; height: 4em; border-radius: 50%; background: #ecca2f; box-shadow: 0 0 0 0.7em rgb(255 255 255 / 0.12), 0 0 0 1.5em rgb(255 255 255 / 0.08); transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease; }
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__sun-moon-container { transform: translateX(5em); background: #c4c9d2; }
+
+.theme-switch__moon { position: absolute; inset: 0; border-radius: 50%; opacity: 0; transition: opacity 0.4s ease; }
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon { opacity: 1; }
+.theme-switch__spot { position: absolute; border-radius: 50%; background: #959db1; }
+.theme-switch__spot:nth-child(1) { top: 0.8em; left: 2em; width: 1em; height: 1em; }
+.theme-switch__spot:nth-child(2) { top: 2.4em; left: 0.6em; width: 0.6em; height: 0.6em; }
+.theme-switch__spot:nth-child(3) { top: 2.6em; left: 2.4em; width: 0.7em; height: 0.7em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-switch__container, .theme-switch__container * { transition: none !important; }
+}
+
+
+--animate-float: float 9s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.8s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(24px, -32px, 0) scale(1.12); }
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-150%) skewX(-20deg); }
+    60%, 100% { transform: translateX(450%) skewX(-20deg); }
+  }
+
+  --font-display: "Bricolage Grotesque", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
+
+
+  html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
