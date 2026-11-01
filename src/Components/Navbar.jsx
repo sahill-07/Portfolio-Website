@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle.jsx";
 import useTheme from "../hooks/useTheme.js";
-import { COMMIT, SOCIALS } from "../data/profile.js";
+import { COMMIT, SOCIALS } from "../Data/profile.js";
 import { ArrowIcon, SocialIcon } from "./Ui.jsx";
 
 // Each link scrolls to a section on the home page.

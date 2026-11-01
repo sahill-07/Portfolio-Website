@@ -16,8 +16,8 @@ export const PROFILE = {
     "Application Support Engineer at TCS with experience in Linux, shell scripting, SQL, and production troubleshooting. I’m building practical DevOps skills through Docker, CI/CD, and infrastructure automation.",
   email: "", // add your real email; empty values are hidden automatically
   github: "https://github.com/sahill-07",
-  linkedin: "", // add your real LinkedIn URL
-  resume: "/resume.pdf", // put resume.pdf in the /public folder, or set "" to hide the button
+  linkedin: "https://www.linkedin.com/in/sahil-bangar/", // add your real LinkedIn URL
+  resume: "/Sahil-Bangar-Application-Support-Engineer-TCS.pdf", // put resume.pdf in the /public folder, or set "" to hide the button
 };
 
 // Social icons (navbar menu and footer). Empty links are filtered out.
@@ -162,6 +162,8 @@ export const EDUCATION = {
   degree: "Bachelor of Engineering, Computer Engineering",
   school: "Terna Engineering College",
   years: "2020 – 2024",
+  cgpa: 9.25, // a number, not text. Delete this line to hide the CGPA card.
+  cgpaOutOf: 10,
   skills: ["C++ and data structures", "Java and OOP", "SQL and databases", "Web development"],
 };
 

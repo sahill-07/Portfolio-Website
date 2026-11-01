@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   DEVOPS_EDGE,
@@ -12,7 +12,7 @@ import {
   ROADMAP,
   SKILL_GROUPS,
   TOOLS,
-} from "../data/profile.js";
+} from "../Data/profile.js";
 import PipelineCard from "./PipelineCard.jsx";
 import ToolsMarquee from "./ToolsMarquee.jsx";
 import {
@@ -166,6 +166,7 @@ function Hero() {
             {PROFILE.resume && (
               <a
                 href={PROFILE.resume}
+                download='Sahil-Bangar-Application-Support-Engineer-TCS.pdf'
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-slate-900/15 px-7 py-3.5 font-semibold text-slate-800 transition-colors hover:bg-slate-900/5 dark:border-white/20 dark:text-white dark:hover:bg-white/10"
@@ -277,6 +278,95 @@ function Experience() {
 /* ------------------------------------------------------------------
    6. EDUCATION AND LEARNING
 ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------
+   CGPA card: counts up from 0 and fills a bar once it scrolls into view.
+   value = the CGPA (9.25), outOf = the scale (10).
+------------------------------------------------------------------ */
+function CgpaMeter({ value, outOf = 10 }) {
+  const ref = useRef(null);
+  const [shown, setShown] = useState(false); // has it scrolled into view yet?
+  const [display, setDisplay] = useState(0); // the number currently shown
+
+  // 1. Wait until the card is visible on screen
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    // No animation for reduced motion or very old browsers: show the final value
+    if (prefersReducedMotion() || !("IntersectionObserver" in window)) {
+      setShown(true);
+      setDisplay(value);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShown(true);
+          observer.disconnect(); // only animate once
+        }
+      },
+      { threshold: 0.4 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [value]);
+
+  // 2. Once visible, count up from 0 to the value over 1.2 seconds
+  useEffect(() => {
+    if (!shown || prefersReducedMotion()) return;
+
+    const duration = 1200;
+    const startTime = performance.now();
+    let frame;
+
+    const step = (now) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // starts fast, slows near the end
+      setDisplay(value * eased);
+      if (progress < 1) frame = requestAnimationFrame(step);
+    };
+
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
+  }, [shown, value]);
+
+  const percent = (value / outOf) * 100; // how full the bar should be
+
+  return (
+    <div
+      ref={ref}
+      className="mt-6 rounded-2xl border border-slate-900/10 bg-slate-900/[0.03] p-4 dark:border-white/10 dark:bg-white/5"
+    >
+      <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">CGPA</p>
+
+      <p className="font-display text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+        {display.toFixed(2)}
+        <span className="ml-1 text-base font-semibold text-slate-500 dark:text-slate-400">/ {outOf}</span>
+      </p>
+
+      {/* The bar: its width grows from 0 to the right percentage */}
+      <div
+        role="progressbar"
+        aria-label="CGPA"
+        aria-valuenow={value}
+        aria-valuemin={0}
+        aria-valuemax={outOf}
+        className="mt-3 h-2 overflow-hidden rounded-full bg-slate-900/10 dark:bg-white/10"
+      >
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500 transition-[width] duration-[1200ms] ease-out motion-reduce:transition-none"
+          style={{ width: shown ? `${percent}%` : "0%" }}
+        />
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------
+   6. EDUCATION AND LEARNING
+------------------------------------------------------------------ */
 function Education() {
   return (
     <Section id="education">
@@ -311,6 +401,9 @@ function Education() {
             <p className="mt-1 font-semibold text-blue-600 dark:text-blue-400">{EDUCATION.school}</p>
             <p className="mt-1 font-mono text-sm text-slate-500 dark:text-slate-400">{EDUCATION.years}</p>
 
+            {/* CGPA card: only shown when EDUCATION.cgpa is set in profile.js */}
+            {EDUCATION.cgpa && <CgpaMeter value={EDUCATION.cgpa} outOf={EDUCATION.cgpaOutOf} />}
+
             <TagList items={EDUCATION.skills} className="mt-6" />
             <p className="mt-6 text-sm text-slate-600 dark:text-slate-400">Languages: {LANGUAGES.join(", ")}</p>
           </SpotlightCard>
@@ -336,7 +429,6 @@ function Education() {
     </Section>
   );
 }
-
 /* ------------------------------------------------------------------
    3. SKILLS: four cards of grouped skills
 ------------------------------------------------------------------ */
