@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { COMMIT, PIPELINE } from "../data/profile.js";
+import { COMMIT, PIPELINE } from "../Data/profile.js";
 import { prefersReducedMotion } from "./Ui.jsx";
 
 export default function PipelineCard() {

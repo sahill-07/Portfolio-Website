@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { PROFILE, ROADMAP, SOCIALS } from "../data/profile.js";
+import { PROFILE, ROADMAP, SOCIALS } from "../Data/profile.js";
 import { Reveal, SocialIcon } from "./Ui.jsx";
 
 const FOOTER_LINKS = [
