@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
-import { PROFILE } from "./data/profile.js";
+import { PROFILE } from "./Data/profile.js";
 import "./styles.css";
 import Navbar from "./Components/Navbar.jsx";
 import Footer from "./Components/Footer.jsx";
