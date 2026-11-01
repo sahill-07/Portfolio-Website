@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle.jsx";
-import useTheme from "../hooks/useTheme.js";
+import useTheme from "../hooks/useTheme";
 import { COMMIT, SOCIALS } from "../Data/profile.js";
 import { ArrowIcon, SocialIcon } from "./Ui.jsx";
 
